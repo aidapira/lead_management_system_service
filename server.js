@@ -15,6 +15,7 @@ mongoose
 
 // Routes
 app.use('/auth', require('./routes/auth'));
+app.use('/leads', require('./routes/leads'));
 
 // Start server
 const PORT = process.env.PORT || 5001;
