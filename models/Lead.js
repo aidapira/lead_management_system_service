@@ -19,6 +19,13 @@ const LeadSchema = new mongoose.Schema({
     enum: ['New', 'Contacted', 'Qualified', 'Lost'],
     default: 'New',
   },
+  score: { type: Number, default: 0 }, // Lead score
+  inquiries: [
+    {
+      message: { type: String, required: true },
+      date: { type: Date, default: Date.now },
+    },
+  ],
   createdAt: {
     type: Date,
     default: Date.now,
