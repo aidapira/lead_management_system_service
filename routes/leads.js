@@ -23,6 +23,42 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Get lead scores
+router.get('/scores', async (req, res) => {
+  try {
+    const { id, sort, minScore, maxScore } = req.query;
+
+    // Handle specific lead retrieval by ID
+    if (id) {
+      const lead = await Lead.findById(id).select('name score');
+      if (!lead) {
+        return res.status(404).json({ error: 'Lead not found.' });
+      }
+      return res.status(200).json({ lead });
+    }
+
+    // Build a query for filtering
+    const query = {};
+    if (minScore) query.score = { $gte: Number(minScore) };
+    if (maxScore) query.score = { ...query.score, $lte: Number(maxScore) };
+
+    // Fetch all leads
+    let leads = await Lead.find(query).select('name score');
+
+    // Apply sorting
+    if (sort === 'asc') {
+      leads = leads.sort((a, b) => a.score - b.score);
+    } else if (sort === 'desc') {
+      leads = leads.sort((a, b) => b.score - a.score);
+    }
+
+    return res.status(200).json({ leads });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'An error occurred while retrieving lead scores.' });
+  }
+});
+
 // Get a lead by ID
 router.get('/:id', async (req, res) => {
   try {
