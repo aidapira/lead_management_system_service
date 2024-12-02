@@ -5,6 +5,16 @@ const mongoose = require('mongoose');
 
 const app = express();
 
+const cors = require("cors");
+
+const corsOptions = {
+  origin: "https://lead-management-system-ui.onrender.com/", 
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
+
 // Add CORS middleware
 app.use(cors({
   origin: "http://localhost:3000", // Allow requests from this origin
