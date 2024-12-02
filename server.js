@@ -5,8 +5,6 @@ const mongoose = require('mongoose');
 
 const app = express();
 
-const cors = require("cors");
-
 const corsOptions = {
   origin: "https://lead-management-system-ui.onrender.com/", 
   methods: ["GET", "POST", "PUT", "DELETE"],
